@@ -37,28 +37,16 @@ public class Deque<Item> implements Iterable<Item> {
         }
     }
 
-    private Node first;
+    private Node first = null;
     private Node last = null;
-
-    public Deque() {
-        first = null;
-    }                           // construct an empty deque
+    private int size = 0;
 
     public boolean isEmpty() {
         return first == null && last == null;
     }                 // is the deque empty?
 
     public int size() {
-        if (isEmpty()) {
-            return 0;
-        }
-        int count = 0;
-        Iterator<Item> iterator = iterator();
-        while (iterator.hasNext()) {
-            iterator.next();
-            count++;
-        }
-        return count;
+        return size;
     }                        // return the number of items on the deque
 
     public void addFirst(Item item) {
@@ -74,6 +62,7 @@ public class Deque<Item> implements Iterable<Item> {
         } else if (last.next == null) {
             last.next = newNode;
         }
+        size++;
     }          // add the item to the front
 
     public void addLast(Item item) {
@@ -85,6 +74,7 @@ public class Deque<Item> implements Iterable<Item> {
         if (first == null) {
             first = newNode;
         }
+        size++;
     }           // add the item to the end
 
     public Item removeFirst() {
@@ -96,6 +86,7 @@ public class Deque<Item> implements Iterable<Item> {
 
         if (last == result) last = null;
 
+        size--;
         return result.val;
     }               // remove and return the item from the front
 
@@ -110,6 +101,7 @@ public class Deque<Item> implements Iterable<Item> {
             first = null;
         }
 
+        size--;
         return result.val;
     }             // remove and return the item from the end
 
@@ -131,18 +123,6 @@ public class Deque<Item> implements Iterable<Item> {
 
     public static void main(String[] args) {
         Deque<Integer> d = new Deque<Integer>();
-//        d.addFirst(0);
-//        d.addFirst(1);
-//        d.addFirst(2);
-//        d.addFirst(3);
-//        System.out.println(d.size());
-//        d.removeLast();
-//        System.out.println(d.size());
-//        d.removeLast();
-//        System.out.println(d.size());
-//        d.addFirst(4);
-//        System.out.println(d.size());
-//        d.addLast(5);
 
         d.addFirst(1);
         d.addFirst(2);
