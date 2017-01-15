@@ -130,6 +130,6 @@ public class Point implements Comparable<Point> {
         Point r = new Point(469, 409);
         System.out.println(p.slopeOrder().compare(q, r));
         System.out.println(p.slopeTo(q));
-        System.out.println(p.slopeTo(r));
+        System.out.println(q.slopeTo(p));
     }
 }

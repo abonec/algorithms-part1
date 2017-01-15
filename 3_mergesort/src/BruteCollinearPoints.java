@@ -9,13 +9,7 @@ public class BruteCollinearPoints {
     public BruteCollinearPoints(Point[] points) {
         if (points == null) throw new NullPointerException();
         Point[] copy = Arrays.copyOf(points, points.length);
-        Point prevPoint = null;
-        for (int i = 0; i < copy.length; i++) {
-            if (copy[i] == null) throw new NullPointerException();
-            for (int j = i + 1; j < copy.length; j++) {
-                if(copy[i].compareTo(copy[j]) == 0) throw new IllegalArgumentException();
-            }
-        }
+        checkDubs(copy);
         Arrays.sort(copy);
         ArrayList<LineSegment> found = new ArrayList<>();
         for (int i = 0; i < copy.length; i++) {
@@ -32,6 +26,15 @@ public class BruteCollinearPoints {
         }
         this.segments = found.toArray(new LineSegment[found.size()]);
     }    // finds all line segments containing 4 points
+
+    private void checkDubs(Point[] points) {
+        for (int i = 0; i < points.length; i++) {
+            if (points[i] == null) throw new NullPointerException();
+            for (int j = i + 1; j < points.length; j++) {
+                if(points[i].compareTo(points[j]) == 0) throw new IllegalArgumentException();
+            }
+        }
+    }
 
     public int numberOfSegments() {
         return segments.length;
