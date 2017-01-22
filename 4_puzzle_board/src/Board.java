@@ -9,6 +9,8 @@ public class Board {
     ;
     private int[][] blocks;
     private int n;
+    private int cachedManhattan = -1;
+    private int cachedHamming = -1;
 
     public Board(int[][] blocks) {
         this.n = blocks.length;
@@ -23,24 +25,28 @@ public class Board {
     }
 
     public int hamming() {
-        int acc = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i == n - 1 && j == n - 1) break;
-                if ((n * i + j + 1) != blocks[i][j]) acc++;
+        if (cachedHamming == -1) {
+            cachedHamming = 0;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (i == n - 1 && j == n - 1) break;
+                    if ((n * i + j + 1) != blocks[i][j]) cachedHamming++;
+                }
             }
         }
-        return acc;
+        return cachedHamming;
     }
 
     public int manhattan() {
-        int acc = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                acc += distance(blocks[i][j], i, j);
+        if (cachedManhattan == -1) {
+            cachedManhattan = 0;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    cachedManhattan += distance(blocks[i][j], i, j);
+                }
             }
         }
-        return acc;
+        return cachedManhattan;
     }
 
     private int distance(int value, int curLine, int curPosition) {
@@ -171,7 +177,10 @@ public class Board {
         int[][] blocks = {{1, 4, 3}, {0, 5, 2}, {7, 8, 6}};
         Board board = new Board(blocks);
         System.out.println(board.toString());
-        System.out.println(board.twin().toString());
+        for (Board b : board.neighbors()) {
+            System.out.println(b.hamming());
+            System.out.println(b.toString());
+        }
     }
 
 }
