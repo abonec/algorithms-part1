@@ -64,19 +64,23 @@ public class Solver {
         twinPq.insert(new SearchNode(initial.twin(), 0, null));
 
 
+        SearchNode prevNode = null;
+        SearchNode prevTwinNode = null;
         while (!solvable) {
             SearchNode node = pq.delMin();
             SearchNode twinNode = twinPq.delMin();
 //            node.print();
             if (node.isGoal()) solve(node);
             if (twinNode.isGoal()) break;
-            addNeighbors(pq, node);
-            addNeighbors(twinPq, twinNode);
+            addNeighbors(pq, node, prevNode);
+            addNeighbors(twinPq, twinNode, prevTwinNode);
+            prevNode = node;
+            prevTwinNode = twinNode;
         }
 
     }
 
-    private void addNeighbors(MinPQ<SearchNode> queue, SearchNode node) {
+    private void addNeighbors(MinPQ<SearchNode> queue, SearchNode node, SearchNode prevNode) {
         for (Board neighbor : node.board.neighbors()) {
             SearchNode parent = node.parent;
             boolean dub = false;
@@ -87,7 +91,8 @@ public class Solver {
                 }
                 parent = parent.parent;
             }
-            if(dub) continue;
+            if (prevNode != null && prevNode.board.equals(neighbor)) dub = true;
+            if (dub) continue;
             queue.insert(new SearchNode(neighbor, node.moves + 1, node));
         }
     }
